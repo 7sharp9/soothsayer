@@ -1,0 +1,11 @@
+{
+    "projFile": "./src/soothsayer.fsx", 
+    "module": "commonjs",
+    "outDir": "./out",
+    "sourceMaps": true,
+    "targets": {
+        "production": {
+            "sourceMaps": false
+        }
+    }
+}
