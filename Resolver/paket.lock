@@ -1,0 +1,13 @@
+FRAMEWORK: >= NET452
+NUGET
+  remote: http://api.nuget.org/v3/index.json
+    Microsoft.Build.Framework (14.3)
+      System.Collections (>= 4.0.11) - framework: >= net46
+      System.Runtime (>= 4.1) - framework: >= net46
+      System.Runtime.InteropServices (>= 4.1) - framework: >= net46
+    Microsoft.Build.Utilities.Core (14.3)
+      Microsoft.Build.Framework (14.3)
+    System.Collections (4.0.11) - framework: >= net46
+    System.Runtime (4.1)
+    System.Runtime.InteropServices (4.1) - framework: >= net46
+      System.Runtime (>= 4.1) - framework: >= net462
