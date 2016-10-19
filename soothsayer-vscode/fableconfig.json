@@ -7,6 +7,5 @@
         "production": {
             "sourceMaps": false
         }
-    },
-    "refs": { "Fable.PowerPack": "fable-powerpack" }
+    }
 }
