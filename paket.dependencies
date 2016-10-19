@@ -5,3 +5,6 @@ nuget FAKE
 nuget FSharp.Compiler.Service
 
 nuget Microsoft.Build.Utilities.Core 14.3.0
+
+github Ionide/ionide-vscode-helpers Fable.Import.VSCode.fs
+github Ionide/ionide-vscode-helpers Helpers.fs
