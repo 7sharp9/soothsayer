@@ -42,6 +42,7 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyData.fs" />
     <Compile Include="soothsayer.fs" />
     <None Include="App.config" />
   </ItemGroup>
