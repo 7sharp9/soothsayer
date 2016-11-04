@@ -21,32 +21,46 @@ module Child_process_promise =
             Exceptions.jsNative
 
     [<Import("*", "child-process-promise")>]
-    let child_process_promise : Globals = Exceptions.jsNative
+    let child_process : Globals = Exceptions.jsNative
 
 module HtmlMapping =
     open AssemblyData
-    let mapFunction f =
-        ""
+    let mapFunction (SMember(name, classification, signature)) =
+        sprintf """
+<h4>%s<h4>
+<p><i>%s</i></p><hr>""" name signature
+
     
     let mapType t = 
         ""
 
     let mapNamespace n =
         ""
+    let node s c =
+        sprintf "<%s>%s</%s>" s c s
+
+    let p s =
+        node "p" s
 
     let mapAssembly (a:AssemblyData.Assembly) =
-        let mutable pretty = a.name + "\n"
+        let mutable pretty = "<body><div style=\"height: 100%; width: 100%\">" + node "h1" a.name
         for entity in a.entities do
             match entity with
-            | Namespace (SNamespace(name, entities)) -> pretty <- pretty + name + "\n"
-            | Module (SModule(name, entities)) -> pretty <- pretty + name + "\n"
-            | Type(SType(name, classification, members)) ->pretty <- pretty + name + "\n"
-            | Member(SMember(name, classification, signature)) -> pretty <- pretty + name + "\n"
+            | Namespace (SNamespace(name, entities)) ->
+                pretty <- pretty + node "h2" name
+            | Module (SModule(name, entities)) ->
+                pretty <- pretty + node "h2" name
+            | Type(SType(name, classification, members)) ->
+                pretty <- pretty + node "h3" name
+                for m in members do
+                    pretty <- pretty + mapFunction m
+            | Member(SMember(name, classification, signature) as sm) ->
+                pretty <- pretty + mapFunction sm
             //TODO recurse heavily on children
-        pretty
-            
-
-    
+        let final = pretty + "</div></body>"
+        console.log(final)
+        final
+               
 
 module Soothsayer =
     open Fable.PowerPack
@@ -71,13 +85,32 @@ module Soothsayer =
             //TODO: set max size of buffer later, only really applicable for soothsayer stdio as it will be large
         ]
 
-    
+    let createSoothsayerProvider() =
+         { new TextDocumentContentProvider
+            with
+                member this.provideTextDocumentContent (uri, token) =
+                    let assemblyPath = uri.path
+                    let optionsForSoothsayer = createProcessOptionsWithBuffer (1024 * 4000)
+                    promise {
+                        let! soothsayerResult =
+                            child_process.exec(createCommand soothsayerExe assemblyPath, optionsForSoothsayer)
+                            
+                        let soothsayerResult, SoothsayerError =
+                            soothsayerResult.stdout.ToString(), soothsayerResult.stderr
 
+                        let assemblyDetail = Fable.Core.Serialize.ofJson<AssemblyData.Assembly> soothsayerResult
+                
+                        let prettyHtml = HtmlMapping.mapAssembly assemblyDetail
+                        return prettyHtml}
+
+            }
+
+    
     let runResolver() =
         promise {
-            let options = createProcessOptionsWithBuffer (1024 * 500)
+            let resolverOptions = createProcessOptionsWithBuffer (1024 * 500)
 
-            let! result = child_process_promise.exec(createCommand resolverExe choosenProject, options)
+            let! result = child_process.exec(createCommand resolverExe choosenProject, resolverOptions)
             let result, error = result.stdout, result.stderr
 
             let! quickPickresult = 
@@ -85,24 +118,18 @@ module Soothsayer =
                     result.ToString().Split([|"\r";"\n"|], StringSplitOptions.RemoveEmptyEntries)
                     |> ResizeArray
                 vscode.window.showQuickPick (unbox inputList)
-            let! informationMessageResult =  vscode.window.showInformationMessage <| sprintf "You picked: %s" quickPickresult
-            //Now, after selection we need to send the chosen item to soothsayer
-            let optionsForSoothsayer = createProcessOptionsWithBuffer (1024 * 4000)
-
-            let! soothsayerResult = child_process_promise.exec(createCommand soothsayerExe quickPickresult, optionsForSoothsayer)
-            let soothsayerResult, SoothsayerError = soothsayerResult.stdout.ToString(), soothsayerResult.stderr
-
-            let assemblyDetail = Fable.Core.Serialize.ofJson<AssemblyData.Assembly> soothsayerResult
-            
-            let prettyHtml = HtmlMapping.mapAssembly assemblyDetail
-            console.log prettyHtml
-            //ignore error assume the best!
+            let soothsayerUri = sprintf "soothsayer://%s" quickPickresult
+            do! vscode.commands.executeCommand("vscode.previewHtml", soothsayerUri, vscode.ViewColumn.Two)
             return promise.Zero
         } |> ignore
+//---
 
 let activate(context: vscode.ExtensionContext) =
     let registerCommand com (f: unit->unit) =
         vscode.commands.registerCommand(com, unbox f)
         |> context.subscriptions.Add
+    
+    let prov = Soothsayer.createSoothsayerProvider()
+    vscode.workspace.registerTextDocumentContentProvider("soothsayer" |> unbox, prov) |> ignore
 
     registerCommand "extension.soothsayer" Soothsayer.runResolver
