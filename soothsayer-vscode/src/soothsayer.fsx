@@ -57,9 +57,7 @@ module HtmlMapping =
             | Member(SMember(name, classification, signature) as sm) ->
                 pretty <- pretty + mapFunction sm
             //TODO recurse heavily on children
-        let final = pretty + "</div></body>"
-        console.log(final)
-        final
+        pretty + "</div></body>"
                
 
 module Soothsayer =
