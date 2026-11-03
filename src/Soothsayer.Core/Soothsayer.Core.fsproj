@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <Compile Include="Model.fs" />
+    <Compile Include="XmlDocs.fs" />
+    <Compile Include="Loader.fs" />
+    <Compile Include="Targets.fs" />
+    <Compile Include="Extract.fs" />
+    <Compile Include="Renderer.fs" />
+    <Compile Include="Search.fs" />
+    <Compile Include="Snippet.fs" />
+    <Compile Include="Service.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="10.1.403" />
+    <PackageReference Include="FSharp.Compiler.Service" Version="43.12.403" />
+  </ItemGroup>
+</Project>

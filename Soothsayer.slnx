@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Soothsayer.Core/Soothsayer.Core.fsproj" />
+    <Project Path="src/Soothsayer.Cli/Soothsayer.Cli.fsproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Soothsayer.Tests/Soothsayer.Tests.fsproj" />
+  </Folder>
+</Solution>

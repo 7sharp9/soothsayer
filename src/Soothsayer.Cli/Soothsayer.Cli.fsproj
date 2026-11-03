@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>soothsayer</AssemblyName>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>soothsayer</ToolCommandName>
+    <PackageId>Soothsayer</PackageId>
+    <Version>0.1.0</Version>
+    <Description>.NET API ground truth for coding agents, as seen from F#.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="McpServer.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Soothsayer.Core\Soothsayer.Core.fsproj" />
+    <PackageReference Update="FSharp.Core" Version="10.1.403" />
+    <PackageReference Include="ModelContextProtocol" Version="2.3.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.7" />
+  </ItemGroup>
+</Project>
