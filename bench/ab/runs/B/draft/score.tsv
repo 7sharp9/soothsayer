@@ -1,0 +1,21 @@
+task	status	errors	first_error
+Task01	ok	0	
+Task02	ok	0	
+Task03	ok	0	
+Task04	ok	0	
+Task05	ok	0	
+Task06	ok	0	
+Task07	ok	0	
+Task08	ok	0	
+Task09	fail	1	error FS0041: No overloads match for method 'cat'.Known types of arguments: torch.Tensor list * int64Available overloads: - torch.cat(tensors: System.Collections.Generic.IList<torch.Tensor>, ?dim: int64) : torch.Tensor // Argument 'tensors' doesn't match - torch.cat(tensors: System.ReadOnlySpan<torch.Tensor>, ?dim: int64) : torch.Tensor // Argument 'tensors' doesn't match - torch.cat(tensors: torch.Tensor array, ?dim: int64) : torch.Tensor // Argument 'tensors' doesn't match
+Task10	ok	0	
+Task11	ok	0	
+Task12	ok	0	
+Task13	ok	0	
+Task14	ok	0	
+Task15	ok	0	
+Task16	ok	0	
+Task17	ok	0	
+Task18	fail	2	error FS0039: The type 'Double' does not define a field, constructor, or member named 'round'. Maybe you want one of the following:   Round
+Task19	ok	0	
+Task20	ok	0	

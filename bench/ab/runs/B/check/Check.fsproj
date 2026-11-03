@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Library</OutputType>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Task.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="TorchSharp" Version="[0.107.0]" />
+  </ItemGroup>
+</Project>

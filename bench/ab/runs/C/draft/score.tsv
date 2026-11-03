@@ -1,0 +1,21 @@
+task	status	errors	first_error
+Task01	ok	0	
+Task02	ok	0	
+Task03	ok	0	
+Task04	ok	0	
+Task05	ok	0	
+Task06	ok	0	
+Task07	ok	0	
+Task08	ok	0	
+Task09	ok	0	
+Task10	ok	0	
+Task11	ok	0	
+Task12	ok	0	
+Task13	ok	0	
+Task14	ok	0	
+Task15	ok	0	
+Task16	ok	0	
+Task17	ok	0	
+Task18	fail	1	error FS0041: A unique overload for method 'clamp' could not be determined based on type information prior to this program point. A type annotation may be needed.Known types of arguments: float * floatCandidates: - torch.Tensor.clamp(?min: Scalar, ?max: Scalar) : torch.Tensor - torch.Tensor.clamp(?min: Scalar, ?max: Scalar) : torch.Tensor - torch.Tensor.clamp(?min: torch.Tensor, ?max: torch.Tensor) : torch.Tensor - torch.Tensor.clamp(?min: torch.Tensor, ?max: torch.Tensor) : torch.Tensor
+Task19	ok	0	
+Task20	ok	0	

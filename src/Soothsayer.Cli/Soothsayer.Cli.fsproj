@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="McpServer.fs" />
+    <Compile Include="Score.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>

@@ -38,7 +38,8 @@ type EntityKind =
         | "enum" -> Some Enum
         | "interface" -> Some Interface
         | "delegate" -> Some Delegate
-        | "abbreviation" | "abbrev" -> Some Abbreviation
+        | "abbreviation"
+        | "abbrev" -> Some Abbreviation
         | "exception" -> Some Exception
         | "measure" -> Some Measure
         | "module" -> Some Module
@@ -67,45 +68,54 @@ type MemberKind =
 
     static member TryParse(s: string) =
         match (if isNull s then "" else s.Trim().ToLowerInvariant()) with
-        | "ctor" | "constructor" -> Some Ctor
-        | "property" | "prop" -> Some Property
+        | "ctor"
+        | "constructor" -> Some Ctor
+        | "property"
+        | "prop" -> Some Property
         | "method" -> Some Method
-        | "function" | "func" -> Some Function
-        | "value" | "val" -> Some Value
-        | "case" | "unioncase" -> Some UnionCase
+        | "function"
+        | "func" -> Some Function
+        | "value"
+        | "val" -> Some Value
+        | "case"
+        | "unioncase" -> Some UnionCase
         | "field" -> Some Field
         | "event" -> Some Event
         | _ -> None
 
 type Member =
-    { Name: string
-      Kind: MemberKind
-      /// Entity full name + "." + member name.
-      FullName: string
-      IsStatic: bool
-      /// F# signature line, e.g. "val map: mapping: ('T -> 'U) -> list: 'T list -> 'U list".
-      Signature: Lazy<string>
-      /// Plain-text XML doc summary.
-      Doc: Lazy<string option> }
+    {
+        Name: string
+        Kind: MemberKind
+        /// Entity full name + "." + member name.
+        FullName: string
+        IsStatic: bool
+        /// F# signature line, e.g. "val map: mapping: ('T -> 'U) -> list: 'T list -> 'U list".
+        Signature: Lazy<string>
+        /// Plain-text XML doc summary.
+        Doc: Lazy<string option>
+    }
 
 type Entity =
-    { Assembly: string
-      /// Namespace path (may be empty).
-      Namespace: string
-      /// Display name with generic parameters, e.g. "Dictionary<'TKey,'TValue>".
-      Name: string
-      /// Namespace-qualified name without generic parameters, e.g. "System.Collections.Generic.Dictionary".
-      FullName: string
-      Kind: EntityKind
-      Doc: Lazy<string option>
-      Base: string option
-      Interfaces: string list
-      /// Target of an abbreviation, or the Invoke signature of a delegate, or the exception payload.
-      Extra: string option
-      IsObsolete: bool
-      /// Struct union/record/class: rendered with [<Struct>].
-      IsStruct: bool
-      Members: Lazy<Member list> }
+    {
+        Assembly: string
+        /// Namespace path (may be empty).
+        Namespace: string
+        /// Display name with generic parameters, e.g. "Dictionary<'TKey,'TValue>".
+        Name: string
+        /// Namespace-qualified name without generic parameters, e.g. "System.Collections.Generic.Dictionary".
+        FullName: string
+        Kind: EntityKind
+        Doc: Lazy<string option>
+        Base: string option
+        Interfaces: string list
+        /// Target of an abbreviation, or the Invoke signature of a delegate, or the exception payload.
+        Extra: string option
+        IsObsolete: bool
+        /// Struct union/record/class: rendered with [<Struct>].
+        IsStruct: bool
+        Members: Lazy<Member list>
+    }
 
 type Role =
     /// The thing the target names: the package, the dll, or (for a project) its non-framework references.
@@ -116,11 +126,13 @@ type Role =
     | Framework
 
 type Reference =
-    { Path: string
-      Name: string
-      Role: Role
-      PackageId: string option
-      PackageVersion: string option }
+    {
+        Path: string
+        Name: string
+        Role: Role
+        PackageId: string option
+        PackageVersion: string option
+    }
 
 type Scope =
     | PrimaryOnly
@@ -128,27 +140,33 @@ type Scope =
     | AllReferences
 
 type ResolvedTarget =
-    { Target: string
-      Description: string
-      References: Reference list
-      /// Problems worth telling the user about (e.g. project not built).
-      Warnings: string list
-      /// Files whose size or mtime changing means this resolution is stale.
-      Watch: string list }
+    {
+        Target: string
+        Description: string
+        References: Reference list
+        /// Problems worth telling the user about (e.g. project not built).
+        Warnings: string list
+        /// Files whose size or mtime changing means this resolution is stale.
+        Watch: string list
+    }
 
 type Diagnostic =
-    { Severity: string
-      Line: int
-      Column: int
-      EndLine: int
-      EndColumn: int
-      Code: string
-      Message: string }
+    {
+        Severity: string
+        Line: int
+        Column: int
+        EndLine: int
+        EndColumn: int
+        Code: string
+        Message: string
+    }
 
 type SearchHit =
-    { Assembly: string
-      FullName: string
-      Kind: string
-      Signature: string
-      Doc: string option
-      Score: int }
+    {
+        Assembly: string
+        FullName: string
+        Kind: string
+        Signature: string
+        Doc: string option
+        Score: int
+    }
